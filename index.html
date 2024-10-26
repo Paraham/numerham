@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numerham - Thần Số Học Tình Yêu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex: 1;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-pink-300 via-purple-300 to-indigo-400">
+    <header class="bg-white shadow">
+        <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+            <h1 class="text-3xl font-bold text-purple-600">
+                Numerham
+            </h1>
+            <nav>
+                <a href="about.html" class="text-purple-600 hover:text-purple-800">Giới thiệu</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <form id="numerologyForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <h3 class="text-lg font-semibold mb-2 text-purple-600">Người thứ nhất</h3>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="name1">
+                            Họ và tên
+                        </label>
+                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="name1" type="text" placeholder="Nhập họ và tên" required>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="birthdate1">
+                            Ngày sinh
+                        </label>
+                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="birthdate1" type="date" required>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-2 text-purple-600">Người thứ hai</h3>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="name2">
+                            Họ và tên
+                        </label>
+                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="name2" type="text" placeholder="Nhập họ và tên" required>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="birthdate2">
+                            Ngày sinh
+                        </label>
+                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="birthdate2" type="date" required>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center justify-center">
+                <button class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="submit">
+                    Xem kết quả
+                </button>
+            </div>
+        </form>
+
+        <div id="result" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 hidden">
+            <h2 class="text-2xl font-bold mb-4 text-purple-600 text-center">Kết quả Thần số học Tình yêu</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div>
+                    <h3 id="name1Result" class="text-lg font-semibold mb-2 text-purple-600"></h3>
+                    <p id="numerologyNumber1" class="text-3xl font-bold text-center mb-2"></p>
+                    <div id="numerologyContent1" class="mb-4"></div>
+                </div>
+                <div>
+                    <h3 id="name2Result" class="text-lg font-semibold mb-2 text-purple-600"></h3>
+                    <p id="numerologyNumber2" class="text-3xl font-bold text-center mb-2"></p>
+                    <div id="numerologyContent2" class="mb-4"></div>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold mb-2 text-purple-600 text-center">Phân tích</h3>
+                <div id="compatibilityContent" class="mb-4"></div>
+                <div id="emotionalConnection" class="mb-4"></div>
+                <div id="growthPotential" class="mb-4"></div>
+            </div>
+        </div>
+
+        <!-- Phần chia sẻ đã được cập nhật -->
+        <div id="shareOptions" class="mt-8 text-center hidden">
+            <h3 class="text-xl font-semibold mb-4 text-purple-600">Chia sẻ kết quả của bạn</h3>
+            <button id="copyLink" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+                Sao chép liên kết
+            </button>
+            <button id="captureImage" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Chụp ảnh kết quả
+            </button>
+        </div>
+    </main>
+
+    <footer class="bg-white shadow mt-auto">
+        <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+            <p class="text-gray-600">
+                © 2023 Numerham. Mọi quyền được bảo lưu.
+            </p>
+            <a href="https://x.com/sonpiaz_" target="_blank" class="text-blue-500 hover:text-blue-700">
+                Theo dõi tôi trên X
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        function calculateNumerology(birthdate) {
+            const dateNumbers = birthdate.split('-').join('').split('').map(Number);
+            const sum = dateNumbers.reduce((acc, curr) => acc + curr, 0);
+            
+            if (sum === 11 || sum === 22) {
+                return sum;
+            }
+            
+            return sum > 9 ? sum.toString().split('').map(Number).reduce((acc, curr) => acc + curr, 0) : sum;
+        }
+
+        function generateNumerologyContent(number, name) {
+            const contents = {
+                1: `${name}, số 1 tượng trưng cho sự độc lập và sáng tạo. Trong tình yêu, bạn mang đến sự mới mẻ và đột phá.`,
+                2: `${name}, số 2 đại diện cho sự hợp tác và cân bằng. Bạn là người biết lắng nghe và tạo sự hài hòa trong mối quan hệ.`,
+                3: `${name}, số 3 liên quan đến sự biểu đạt và giao tiếp. Bạn mang đến niềm vui và sự sôi nổi trong tình yêu.`,
+                4: `${name}, số 4 tượng trưng cho sự ổn định. Bạn là chỗ dựa đáng tin cậy và tạo nền tảng vững chắc cho tình yêu.`,
+                5: `${name}, số 5 đại diện cho sự tự do và phiêu lưu. Bạn mang đến sự hứng khởi và những trải nghiệm mới trong tình yêu.`,
+                6: `${name}, số 6 liên quan đến tình yêu và trách nhiệm. Bạn là người chăm sóc, yêu thương và tạo sự ấm áp trong mối quan hệ.`,
+                7: `${name}, số 7 tượng trưng cho sự sâu sắc và tâm linh. Bạn mang đến chiều sâu và sự hiểu biết trong tình yêu.`,
+                8: `${name}, số 8 đại diện cho sự thành công và phong phú. Bạn có khả năng tạo ra sự ổn định và thịnh vượng trong tình yêu.`,
+                9: `${name}, số 9 liên quan đến lòng nhân ái. Bạn mang đến tình yêu vô điều kiện và sự bao dung trong mối quan hệ.`,
+                11: `${name}, số 11 là số thần kỳ, đại diện cho sự trực giác. Bạn có khả năng hiểu sâu sắc và kết nối tinh thần mạnh mẽ trong tình yêu.`,
+                22: `${name}, số 22 là số chủ, tượng trưng cho khả năng biến ước mơ thành hiện thực. Bạn có tiềm năng tạo ra một mối quan hệ lý tưởng và truyền cảm hứng.`
+            };
+            return contents[number] || `${name}, số ${number} của bạn là một số đặc biệt. Nó mang đến những đặc điểm độc đáo và ý nghĩa sâu sắc trong tình yêu của bạn.`;
+        }
+
+        function analyzeCompatibility(number1, number2, name1, name2) {
+            const sum = number1 + number2;
+            let compatibility;
+            if (sum % 2 === 0) {
+                compatibility = `${name1} và ${name2}, sự kết hợp số ${number1} và ${number2} của các bạn tạo nên một mối quan hệ hài hòa và cân bằng. Các bạn bổ sung cho nhau một cách tuyệt vời, mang lại sự ổn định và hạnh phúc lâu dài.`;
+            } else {
+                compatibility = `${name1} và ${name2}, sự kết hợp số ${number1} và ${number2} của các bạn tạo nên một mối quan hệ đầy năng lượng và sáng tạo. Sự khác biệt giữa các bạn là chất xúc tác cho sự phát triển và khám phá không ngừng trong tình yêu.`;
+            }
+
+            const positiveAspects = [
+                "Các bạn có khả năng hiểu nhau sâu sắc và hỗ trợ nhau trong mọi hoàn cảnh.",
+                "Tình yêu của các bạn có tiềm năng phát triển mạnh mẽ và bền vững theo thời gian.",
+                "Sự kết hợp độc đáo này tạo ra một động lực mạnh mẽ cho cả hai người cùng phát triển.",
+                "Các bạn có khả năng xây dựng một mối quan hệ đầy đam mê và sự tôn trọng lẫn nhau.",
+                "Sự kết hợp này hứa hẹn những trải nghiệm phong phú và đáng nhớ trong tình yêu."
+            ];
+
+            const randomPositiveAspects = positiveAspects.sort(() => 0.5 - Math.random()).slice(0, 2);
+
+            return compatibility + " " + randomPositiveAspects.join(" ");
+        }
+
+        function analyzeEmotionalConnection(number1, number2, name1, name2) {
+            const connectionTypes = [
+                `${name1} và ${name2}, sự kết nối cảm xúc giữa hai bạn rất mạnh mẽ. Các bạn có khả năng hiểu được cảm xúc của nhau mà không cần nói ra lời.`,
+                `${name1} và ${name2}, tình yêu của các bạn được xây dựng trên nền tảng của sự thấu hiểu và tôn trọng lẫn nhau. Điều này tạo ra một mối quan hệ vững chắc và bền lâu.`,
+                `${name1} và ${name2}, các bạn có khả năng tạo ra một không gian an toàn cho nhau, nơi cả hai đều có thể chia sẻ những suy nghĩ và cảm xúc sâu kín nhất.`
+            ];
+            return connectionTypes[Math.floor(Math.random() * connectionTypes.length)];
+        }
+
+        function analyzeGrowthPotential(number1, number2, name1, name2) {
+            const growthPotentials = [
+                `${name1} và ${name2}, mối quan hệ của các bạn có tiềm năng phát triển rất lớn. Cả hai đều có khả năng thúc đẩy nhau trở nên tốt hơn mỗi ngày.`,
+                `${name1} và ${name2}, sự kết hợp độc đáo giữa các bạn tạo ra cơ hội tuyệt vời để học hỏi và phát triển cùng nhau. Hãy cùng nhau khám phá những chân trời mới!`,
+                `${name1} và ${name2}, tình yêu của các bạn là nguồn cảm hứng cho sự phát triển cá nhân. Cùng nhau, các bạn có thể vượt qua mọi thử thách và trở nên mạnh mẽ hơn.`
+            ];
+            return growthPotentials[Math.floor(Math.random() * growthPotentials.length)];
+        }
+
+        document.getElementById('numerologyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name1 = document.getElementById('name1').value;
+            const birthdate1 = document.getElementById('birthdate1').value;
+            const name2 = document.getElementById('name2').value;
+            const birthdate2 = document.getElementById('birthdate2').value;
+
+            const number1 = calculateNumerology(birthdate1);
+            const number2 = calculateNumerology(birthdate2);
+
+            const content1 = generateNumerologyContent(number1, name1);
+            const content2 = generateNumerologyContent(number2, name2);
+
+            const compatibility = analyzeCompatibility(number1, number2, name1, name2);
+            const emotionalConnection = analyzeEmotionalConnection(number1, number2, name1, name2);
+            const growthPotential = analyzeGrowthPotential(number1, number2, name1, name2);
+
+            document.getElementById('name1Result').textContent = name1;
+            document.getElementById('numerologyNumber1').textContent = number1;
+            document.getElementById('numerologyContent1').textContent = content1;
+
+            document.getElementById('name2Result').textContent = name2;
+            document.getElementById('numerologyNumber2').textContent = number2;
+            document.getElementById('numerologyContent2').textContent = content2;
+
+            document.getElementById('compatibilityContent').textContent = compatibility;
+            document.getElementById('emotionalConnection').textContent = emotionalConnection;
+            document.getElementById('growthPotential').textContent = growthPotential;
+
+            document.getElementById('result').classList.remove('hidden');
+            document.getElementById('shareOptions').classList.remove('hidden');
+        });
+
+        document.getElementById('copyLink').addEventListener('click', function() {
+            const link = window.location.href;
+            navigator.clipboard.writeText(link).then(() => {
+                alert('Đã sao chép liên kết vào clipboard!');
+            });
+        });
+
+        document.getElementById('captureImage').addEventListener('click', function() {
+            html2canvas(document.getElementById('result')).then(function(canvas) {
+                const link = document.createElement('a');
+                link.download = 'numerham-result.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        });
+    </script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</body>
+</html>
